@@ -10,4 +10,5 @@ fun CharacterRemote.toDomain(): Character = Character(
     species = this.species,
     gender = this.gender,
     image = this.image,
+    episode = this.episode
 )

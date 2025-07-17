@@ -8,6 +8,6 @@ data class Character(
     val species: String,
     val gender: String,
     val image: String,
-
+    val episode: List<String>
     //TODO: Для расширения экрана фильтрации добавить дополнительные поля
 )
