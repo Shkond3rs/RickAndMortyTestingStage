@@ -29,7 +29,7 @@ data class CharacterRemote(
 
 data class Origin(
     val name: String,
-    val url: String,
+    val url: String?,
 )
 
 data class Location(

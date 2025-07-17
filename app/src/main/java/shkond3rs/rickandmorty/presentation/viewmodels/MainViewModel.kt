@@ -7,13 +7,15 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import shkond3rs.rickandmorty.data.local.dao.CharacterDao
 import shkond3rs.rickandmorty.data.repository.CharacterRepositoryImpl
 import shkond3rs.rickandmorty.domain.model.Character
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: CharacterRepositoryImpl
+    private val repository: CharacterRepositoryImpl,
+    private val dao: CharacterDao
 ) : ViewModel() {
 
     private val _characters = MutableStateFlow<List<Character>>(emptyList())
@@ -35,6 +37,12 @@ class MainViewModel @Inject constructor(
                 _errorMessage.value = "Ошибка: ${e::class.qualifiedName}: ${e.message}\n${e.stackTraceToString()}"
                 Log.d("MainViewModel", "Ошибка: ${e::class.qualifiedName}: ${e.message}\n${e.stackTraceToString()}")
             }
+        }
+    }
+
+    fun deleteAll() {
+        viewModelScope.launch {
+            dao.deleteAllCharacters()
         }
     }
 }

@@ -2,6 +2,7 @@ package shkond3rs.rickandmorty.presentation.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -58,7 +60,7 @@ fun MainScreen(
                 title = {
                     Text(
                         text = "RICK & MORTY",
-                        fontSize = 32.sp,
+                        fontSize = 48.sp,
                         color = MaterialTheme.colorScheme.primary,
                         style = TextStyle(
                             shadow = Shadow(
@@ -66,7 +68,9 @@ fun MainScreen(
                                 offset = Offset(0f, 0f),
                                 blurRadius = 8f
                             )
-                        )
+                        ),
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
                     )
                 },
                 colors = TopAppBarColors(
@@ -81,23 +85,29 @@ fun MainScreen(
         contentWindowInsets = WindowInsets.safeContent,
         content = { innerPadding ->
             println(innerPadding)
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = modifier.fillMaxSize(),
-                contentPadding = PaddingValues(
-                    start = innerPadding.calculateStartPadding(LayoutDirection.Ltr) + 16.dp,
-                    top = innerPadding.calculateTopPadding(),
-                    end = innerPadding.calculateEndPadding(LayoutDirection.Ltr) + 16.dp,
-                    bottom = innerPadding.calculateBottomPadding()
-                ),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                content = {
-                    items(characters) { character ->
-                        CharacterCard(modifier, character)
-                    }
+            Column(Modifier.fillMaxSize()) {
+                Box(Modifier.weight(1f)) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        modifier = modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(
+                            start = innerPadding.calculateStartPadding(LayoutDirection.Ltr) + 16.dp,
+                            top = innerPadding.calculateTopPadding(),
+                            end = innerPadding.calculateEndPadding(LayoutDirection.Ltr) + 16.dp,
+                            bottom = innerPadding.calculateBottomPadding()
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        content = {
+                            items(characters) { character ->
+                                CharacterCard(modifier, character)
+                            }
+                        }
+                    )
                 }
-            )
+                Button(onClick = {mainVM.deleteAll()}) { Text(text = "clear") }
+                Button(onClick = {mainVM.fetchCharacters()}) { Text(text = "load") }
+            }
 
         }
     )
@@ -110,7 +120,7 @@ fun CharacterCard(modifier: Modifier = Modifier, character: Character) {
         "GENDER" to character.gender
     )
 
-    val characterFirstAppear = character.episode.first().substringAfterLast("/")
+    val characterFirstAppear = character.episodeIds.first()
     Card(
         modifier = modifier
             .widthIn(max = 220.dp),
