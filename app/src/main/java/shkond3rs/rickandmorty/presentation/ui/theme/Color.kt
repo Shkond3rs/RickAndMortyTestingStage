@@ -1,4 +1,4 @@
-package shkond3rs.rickandmorty.ui.theme
+package shkond3rs.rickandmorty.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
