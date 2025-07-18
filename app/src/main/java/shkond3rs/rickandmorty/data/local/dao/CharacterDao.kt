@@ -8,6 +8,10 @@ import shkond3rs.rickandmorty.data.local.model.CharacterEntity
 
 @Dao
 interface CharacterDao {
+
+    @Query("SELECT * FROM characters WHERE id = :id")
+    suspend fun getCharacterById(id: Int): CharacterEntity?
+
     @Query("SELECT * FROM characters")
     suspend fun getAllCharacters(): List<CharacterEntity>
 

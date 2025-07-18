@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import shkond3rs.rickandmorty.presentation.ui.theme.AliveColor
 
 private val DarkColorScheme = darkColorScheme(
     primary = DarkHeaderLightBlue,
@@ -15,7 +16,9 @@ private val DarkColorScheme = darkColorScheme(
 
     background = DarkBG,
     secondary = DarkMale,
-    onSecondary = DarkFemale
+    onSecondary = DarkFemale,
+    tertiary = AliveColor,
+    onTertiary = DeadColor
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -27,7 +30,9 @@ private val LightColorScheme = lightColorScheme(
 
     background = LightBG,
     secondary = LightMale,
-    onSecondary = LightFemale
+    onSecondary = LightFemale,
+    tertiary = AliveColor,
+    onTertiary = DeadColor
 )
 
 @Composable

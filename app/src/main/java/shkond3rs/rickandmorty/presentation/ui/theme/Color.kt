@@ -22,5 +22,5 @@ val LightMale = Color(0xFF2196F3)
 val LightFemale = Color(0xFFE91E63)
 
 
-val Alive = Color(0xFF4CAF50)
-val dead = Color(0xFFF44336)
+val AliveColor = Color(0xFF4CAF50)
+val DeadColor = Color(0xFFF12518)

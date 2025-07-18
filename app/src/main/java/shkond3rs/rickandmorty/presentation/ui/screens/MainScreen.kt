@@ -1,6 +1,7 @@
 package shkond3rs.rickandmorty.presentation.ui.screens
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,7 +51,8 @@ import shkond3rs.rickandmorty.presentation.viewmodels.MainViewModel
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    mainVM: MainViewModel
+    mainVM: MainViewModel,
+    onCharacterClick: (Int) -> Unit,
 ) {
     val characters by mainVM.characters.collectAsState()
     val errorMessage by mainVM.errorMessage.collectAsState()
@@ -84,7 +86,6 @@ fun MainScreen(
         },
         contentWindowInsets = WindowInsets.safeContent,
         content = { innerPadding ->
-            println(innerPadding)
             Column(Modifier.fillMaxSize()) {
                 Box(Modifier.weight(1f)) {
                     LazyVerticalGrid(
@@ -100,13 +101,17 @@ fun MainScreen(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         content = {
                             items(characters) { character ->
-                                CharacterCard(modifier, character)
+                                CharacterCard(
+                                    modifier = modifier,
+                                    character = character,
+                                    onClick = { onCharacterClick(character.id) }
+                                )
                             }
                         }
                     )
                 }
-                Button(onClick = {mainVM.deleteAll()}) { Text(text = "clear") }
-                Button(onClick = {mainVM.fetchCharacters()}) { Text(text = "load") }
+                Button(onClick = { mainVM.deleteAll() }) { Text(text = "clear") }
+                Button(onClick = { mainVM.fetchCharacters() }) { Text(text = "load") }
             }
 
         }
@@ -114,7 +119,11 @@ fun MainScreen(
 }
 
 @Composable
-fun CharacterCard(modifier: Modifier = Modifier, character: Character) {
+fun CharacterCard(
+    modifier: Modifier = Modifier,
+    character: Character,
+    onClick: (Int) -> Unit
+) {
     val rows = listOf(
         "SPECIES" to character.species,
         "GENDER" to character.gender
@@ -123,7 +132,8 @@ fun CharacterCard(modifier: Modifier = Modifier, character: Character) {
     val characterFirstAppear = character.episodeIds.first()
     Card(
         modifier = modifier
-            .widthIn(max = 220.dp),
+            .widthIn(max = 220.dp)
+            .clickable { onClick(character.id) },
         shape = CutCornerShape(
             topStart = 16.dp,
             topEnd = 8.dp,
@@ -131,8 +141,8 @@ fun CharacterCard(modifier: Modifier = Modifier, character: Character) {
             bottomEnd = 16.dp
         ),
         colors = CardColors(
-            containerColor = Color(0xFF1A2035),
-            contentColor = Color(0xFF1FD3F0),
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer                                                                                  ,
             disabledContainerColor = Color(0xFF1A2035),
             disabledContentColor = Color(0xFF1FD3F0),
         ),
@@ -140,7 +150,7 @@ fun CharacterCard(modifier: Modifier = Modifier, character: Character) {
         content = {
             AsyncImage(
                 model = character.image,
-                contentDescription = "Заглушка",
+                contentDescription = "person img",
                 modifier = modifier.fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )

@@ -34,8 +34,7 @@ class MainViewModel @Inject constructor(
                 _characters.value = repository.getAllCharacters()
                 _errorMessage.value = null
             } catch (e: Exception) {
-                _errorMessage.value = "Ошибка: ${e::class.qualifiedName}: ${e.message}\n${e.stackTraceToString()}"
-                Log.d("MainViewModel", "Ошибка: ${e::class.qualifiedName}: ${e.message}\n${e.stackTraceToString()}")
+                _errorMessage.value = "Ошибка: ${e.message}"
             }
         }
     }

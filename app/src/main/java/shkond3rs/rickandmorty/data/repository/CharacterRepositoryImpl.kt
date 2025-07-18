@@ -1,6 +1,8 @@
 package shkond3rs.rickandmorty.data.repository
 
 import shkond3rs.rickandmorty.data.local.dao.CharacterDao
+import shkond3rs.rickandmorty.data.local.dao.EpisodeDao
+import shkond3rs.rickandmorty.data.local.dao.LocationDao
 import shkond3rs.rickandmorty.data.network.RickAndMortyApiService
 import shkond3rs.rickandmorty.data.mapper.toDomain
 import shkond3rs.rickandmorty.data.mapper.toEntity
@@ -10,11 +12,17 @@ import javax.inject.Inject
 
 class CharacterRepositoryImpl @Inject constructor(
     private val api: RickAndMortyApiService,
-    private val dao: CharacterDao,
+    private val characterDao: CharacterDao,
+    private val locationDao: LocationDao,
+    private val episodeDao: EpisodeDao
 ) : CharacterRepository {
+
+    override suspend fun getCharacterById(id: Int): Character? =
+        characterDao.getCharacterById(id)?.toDomain()
+
     override suspend fun getAllCharacters(): List<Character> {
         // При запуске пробуем загрузить данные из БД
-        val local = dao.getAllCharacters()
+        val local = characterDao.getAllCharacters()
         if (local.isNotEmpty()) return local.map { it.toDomain() }
 
         // Если БД пустая, запрашиваем данные с сервера
@@ -22,7 +30,7 @@ class CharacterRepositoryImpl @Inject constructor(
         val entity = remote.results.map { it.toEntity() }
 
         // Сохраняем полученные данные в БД
-        dao.insertAll(entity)
+        characterDao.insertAll(entity)
 
         return entity.map { it.toDomain() }
     }

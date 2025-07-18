@@ -10,8 +10,11 @@ fun CharacterRemote.toDomain(): Character = Character(
     status = status,
     species = species,
     gender = gender,
+    type = type,
     image = image,
-    episodeIds = episode.mapNotNull { it.substringAfterLast("/").toIntOrNull() }
+    episodeIds = episode.mapNotNull { it.substringAfterLast("/").toIntOrNull() },
+    originId = -1,
+    locationId = -1
 )
 
 fun CharacterRemote.toEntity(): CharacterEntity = CharacterEntity(
@@ -34,7 +37,10 @@ fun CharacterEntity.toDomain(): Character = Character(
     species = species,
     gender = gender,
     image = image,
-    episodeIds = episodeIds
+    type = type,
+    episodeIds = episodeIds,
+    originId = originId,
+    locationId = locationId
 )
 
 // Если возвращается -1, значит у персонажа неизвестно происхождение

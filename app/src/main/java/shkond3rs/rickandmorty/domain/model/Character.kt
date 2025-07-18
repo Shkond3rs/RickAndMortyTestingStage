@@ -7,7 +7,10 @@ data class Character(
     val status: String,
     val species: String,
     val gender: String,
+    val type: String?,
     val image: String,
-    val episodeIds: List<Int>
-    //TODO: Для расширения экрана фильтрации добавить дополнительные поля
+    val episodeIds: List<Int>,
+
+    val originId: Int,
+    val locationId: Int,
 )

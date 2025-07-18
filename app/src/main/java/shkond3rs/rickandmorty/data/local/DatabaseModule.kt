@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import shkond3rs.rickandmorty.data.local.dao.CharacterDao
+import shkond3rs.rickandmorty.data.local.dao.EpisodeDao
 import shkond3rs.rickandmorty.data.local.dao.LocationDao
 import javax.inject.Singleton
 
@@ -32,4 +33,6 @@ object DatabaseModule {
     @Provides
     fun provideLocationDao(db: AppDataBase): LocationDao = db.locationDao()
 
+    @Provides
+    fun provideEpisodeDao(db: AppDataBase): EpisodeDao = db.episodeDao()
 }
