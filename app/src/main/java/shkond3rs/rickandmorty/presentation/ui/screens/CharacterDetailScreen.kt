@@ -20,10 +20,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
@@ -54,6 +58,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -88,11 +93,10 @@ fun CharacterDetailScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
+                    BasicText(
                         text = "RICK & MORTY",
-                        fontSize = 48.sp,
-                        color = MaterialTheme.colorScheme.primary,
                         style = TextStyle(
+                            color = MaterialTheme.colorScheme.primary,
                             shadow = Shadow(
                                 color = MaterialTheme.colorScheme.onPrimary,
                                 offset = Offset(0f, 0f),
@@ -100,7 +104,7 @@ fun CharacterDetailScreen(
                             )
                         ),
                         modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
+                        autoSize = TextAutoSize.StepBased(),
                     )
                 },
                 navigationIcon = {
@@ -220,20 +224,23 @@ fun PersonCard(
             )
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 8.dp)
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = "${person?.name}",
+                    modifier = Modifier.weight(1f),
                     color = if (person?.gender?.lowercase() == "male") MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSecondary,
-                    fontSize = 32.sp,
+                    fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
-                    letterSpacing = 0.5.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
+                Spacer(modifier = Modifier.width(8.dp))
                 Box(
                     modifier = Modifier
+//                        .weight(1f),
                         .clip(CutCornerShape(8.dp))
                         .border(
                             2.dp,
@@ -268,27 +275,23 @@ fun PersonCard(
                 Column {
                     Text(text = "GENDER",
                         color = MaterialTheme.colorScheme.onPrimary,
-                        fontSize = 20.sp,
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        lineHeight = 20.sp
                     )
                     Text(text = "${person?.gender}",
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        fontSize = 22.sp,
-                        lineHeight = 22.sp
+                        fontSize = 20.sp,
                     )
                 }
                 Column {
                     Text(text = "SPECIES",
                         color = MaterialTheme.colorScheme.onPrimary,
-                        fontSize = 20.sp,
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        lineHeight = 20.sp
                     )
                     Text(text = "${person?.species}",
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        fontSize = 22.sp,
-                        lineHeight = 22.sp
+                        fontSize = 20.sp,
                     )
                 }
             }
@@ -431,7 +434,7 @@ fun EpisodeCard(modifier: Modifier = Modifier, episode: Episode) {
 }
 
 val mockupPerson = Character(
-    1, "Rick Sanchez",
+    1, "Abadango Cluster Princess",
     "Alive",
     species = "Human",
     gender = "Male",

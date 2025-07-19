@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
@@ -55,6 +58,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
@@ -216,7 +220,7 @@ fun CharacterCard(
     val characterFirstAppear = character.episodeIds.first()
     Card(
         modifier = modifier
-            .widthIn(max = 220.dp)
+            .fillMaxWidth()
             .clickable { onClick(character.id) },
         shape = CutCornerShape(
             topStart = 16.dp,
@@ -239,15 +243,18 @@ fun CharacterCard(
                 contentScale = ContentScale.Crop
             )
             Column(
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 16.dp),
+                modifier = Modifier
+                    .padding(horizontal = 8.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
                     text = character.name.uppercase(),
                     color = if (character.gender.lowercase() == "male") MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSecondary,
-                    fontSize = 20.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 0.5.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Row(
                     Modifier.fillMaxWidth(),
@@ -281,7 +288,7 @@ fun CharacterCard(
                 Text(
                     text = "Appeared in $characterFirstAppear episode",
                     color = MaterialTheme.colorScheme.primary,
-                    fontSize = 12.sp,
+                    fontSize = 10.sp,
                     textAlign = TextAlign.Center,
                     lineHeight = 12.sp,
                     modifier = modifier.fillMaxWidth()

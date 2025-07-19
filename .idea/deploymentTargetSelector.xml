@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-07-19T11:49:14.594655100Z">
+        <DropdownSelection timestamp="2025-07-19T21:28:50.827755500Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Shkond3rs\.android\avd\Hardware_Acceleration.avd" />
