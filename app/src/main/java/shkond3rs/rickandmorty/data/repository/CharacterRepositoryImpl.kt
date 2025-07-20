@@ -1,5 +1,7 @@
 package shkond3rs.rickandmorty.data.repository
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import shkond3rs.rickandmorty.data.local.dao.CharacterDao
 import shkond3rs.rickandmorty.data.local.dao.EpisodeDao
 import shkond3rs.rickandmorty.data.local.dao.LocationDao
@@ -14,24 +16,18 @@ class CharacterRepositoryImpl @Inject constructor(
     private val api: RickAndMortyApiService,
     private val characterDao: CharacterDao,
     private val locationDao: LocationDao,
-    private val episodeDao: EpisodeDao
+    private val episodeDao: EpisodeDao,
 ) : CharacterRepository {
 
     override suspend fun getCharacterById(id: Int): Character? =
         characterDao.getCharacterById(id)?.toDomain()
 
-    override suspend fun getAllCharacters(): List<Character> {
-        // При запуске пробуем загрузить данные из БД
-        val local = characterDao.getAllCharacters()
-        if (local.isNotEmpty()) return local.map { it.toDomain() }
+    override suspend fun getAllCharacters(): Flow<List<Character>> =
+        characterDao.getAllCharacters().map { list -> list.map { it.toDomain() } }
 
-        // Если БД пустая, запрашиваем данные с сервера
+    suspend fun refreshCharactersFromApi() {
         val remote = api.getAllCharacters()
         val entity = remote.results.map { it.toEntity() }
-
-        // Сохраняем полученные данные в БД
         characterDao.insertAll(entity)
-
-        return entity.map { it.toDomain() }
     }
 }
